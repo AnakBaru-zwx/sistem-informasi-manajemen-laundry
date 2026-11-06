@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Manajemen Laundry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <aside class="sidebar">
+            <h2>Laundry App</h2>
+
+            <nav>
+                <a href="#">Dashboard</a>
+                <a href="#">Data Pelanggan</a>
+                <a href="#">Data Pesanan</a>
+                <a href="#">Data Produk</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+
+    <h1>Data Pelanggan</h1>
+    <h2>Tambah Pelanggan</h2>
+
+<form id="formPelanggan">
+
+    <label>Nama Pelanggan</label>
+    <input type="text" id="nama" required>
+
+    <label>No. HP</label>
+    <input type="text" id="no_hp" required>
+
+    <label>Alamat</label>
+    <input type="text" id="alamat">
+
+    <button type="submit">Simpan Pelanggan</button>
+
+</form>
+    <p>Daftar pelanggan Laundry.</p>
+
+    <table>
+        <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nama Pelanggan</th>
+        <th>No. HP</th>
+        <th>Alamat</th>
+        <th>Aksi</th>
+    </tr>
+</thead>
+
+        <tbody id="tabelPelanggan">
+            <!-- Data pelanggan akan ditampilkan di sini -->
+        </tbody>
+    </table>
+
+
+</main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

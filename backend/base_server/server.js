@@ -4,7 +4,8 @@ const cors = require('cors');
 const { initializeDatabase } = require('./src/config/database');
 const testRoutes =  require('./src/routes/test')
 const productRoutes = require('./src/routes/productRoutes');
-
+const pelangganRoutes = require('./src/routes/pelangganRoutes');
+const pesananRoutes = require('./src/routes/pesananRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
       'POST   /api/products':      'Buat produk baru',
       'PUT    /api/products/:id':  'Update produk',
       'DELETE /api/products/:id':  'Hapus produk',
+      'POST   /api/pelanggan': 'Buat pelanggan baru',
     },
   });
 });
@@ -30,6 +32,8 @@ app.get('/', (req, res) => {
 /* Routes */
 app.use('/api/test', testRoutes)
 app.use('/api/products', productRoutes);
+app.use('/api/pelanggan', pelangganRoutes);
+app.use('/api/pesanan', pesananRoutes);
 
 /* 404 */
 app.use((req, res) => {

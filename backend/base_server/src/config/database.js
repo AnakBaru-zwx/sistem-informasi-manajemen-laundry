@@ -15,6 +15,21 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
   console.log('✅ Terhubung ke SQLite:', dbPath);
 });
+db.run('PRAGMA foreign_keys = ON', (err) => {
+    if (err) {
+        console.error('Gagal mengaktifkan Foreign Key:', err.message);
+        return;
+    }
+
+    db.get('PRAGMA foreign_keys', (err, row) => {
+        if (err) {
+            console.error(err.message);
+            return;
+        }
+
+        console.log('Foreign Key aktif:', row.foreign_keys === 1);
+    });
+});
 
 const initializeDatabase = () => 
   new Promise((resolve, reject)=>{
