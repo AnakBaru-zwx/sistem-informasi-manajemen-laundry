@@ -322,9 +322,6 @@ Database menggunakan SQLite dengan Foreign Key aktif.
 
 7. Penanganan Kesalahan API
    7.1 Error API Pelanggan
-   Status: 400 Bad Request
-
-
 **Response Error:**
 ```json
 {
@@ -340,7 +337,6 @@ Status: 400 Bad Request.
 }
 Status: 400 Bad Request.
 Ketika pelanggan tidak terdaftar:
-Plain Text
 {
     "success": false,
     "message": "Pelanggan tidak ditemukan"
@@ -362,7 +358,6 @@ Status: 400 Bad Request.
  
    7.4 Error API Pembayaran
 Contoh:
-Plain Text
 {
     "success": false,
     "message": "Pembayaran hanya dapat dilakukan jika pesanan sudah Selesai dan belum dibayar"
