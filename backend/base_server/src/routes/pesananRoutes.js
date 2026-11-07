@@ -9,14 +9,20 @@ const HARGA_PER_KG = 7000;
 // API untuk menambahkan transaksi
 router.post('/', (req, res) => {
 
-    const { pelanggan_id, berat } = req.body;
+const pelanggan_id = Number(req.body.pelanggan_id);
+const berat = Number(req.body.berat);
 
-    // Validasi data
-    if (!pelanggan_id || !berat || berat <= 0) {
-        return res.status(400).json({
-            success: false,
-            message: 'ID pelanggan dan berat cucian wajib diisi dengan benar'
-        });
+// Validasi data
+if (
+    !Number.isSafeInteger(pelanggan_id) ||
+    pelanggan_id <= 0 ||
+    !Number.isFinite(berat) ||
+    berat <= 0
+) {
+    return res.status(400).json({
+        success: false,
+        message: 'ID pelanggan harus berupa angka positif dan berat cucian harus lebih dari 0'
+    });
     }
 
     // Menghitung total harga
@@ -32,40 +38,62 @@ router.post('/', (req, res) => {
         )
         VALUES (?, ?, ?, ?)
     `;
-
-    // Menyimpan transaksi ke database
-    db.run(sql, [
-        pelanggan_id,
-        berat,
-        HARGA_PER_KG,
-        total_harga
-    ], function(err) {
+// Memeriksa apakah pelanggan terdaftar
+db.get(
+    'SELECT id FROM pelanggan WHERE id = ?',
+    [pelanggan_id],
+    (err, pelanggan) => {
 
         if (err) {
             return res.status(500).json({
                 success: false,
-                message: 'Gagal menambahkan transaksi',
+                message: 'Gagal memeriksa data pelanggan',
                 error: err.message
             });
         }
 
-        res.status(201).json({
-            success: true,
-            message: 'Transaksi berhasil ditambahkan',
-            data: {
-                id: this.lastID,
-                pelanggan_id: pelanggan_id,
-                berat: berat,
-                harga_per_kg: HARGA_PER_KG,
-                total_harga: total_harga,
-                status_pengerjaan: 'Menunggu',
-                status_pembayaran: 'Belum dibayar'
+        // Jika pelanggan tidak ditemukan
+        if (!pelanggan) {
+            return res.status(404).json({
+                success: false,
+                message: 'Pelanggan tidak ditemukan'
+            });
+        }
+
+        // Menyimpan transaksi ke database
+        db.run(sql, [
+            pelanggan_id,
+            berat,
+            HARGA_PER_KG,
+            total_harga
+        ], function(err) {
+
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Gagal menambahkan transaksi',
+                    error: err.message
+                });
             }
+
+            res.status(201).json({
+                success: true,
+                message: 'Transaksi berhasil ditambahkan',
+                data: {
+                    id: this.lastID,
+                    pelanggan_id: pelanggan_id,
+                    berat: berat,
+                    harga_per_kg: HARGA_PER_KG,
+                    total_harga: total_harga,
+                    status_pengerjaan: 'Menunggu',
+                    status_pembayaran: 'Belum dibayar'
+                }
+            });
+
         });
 
     });
-
-});
+}); // Penutup router.post()
 // API untuk menampilkan semua transaksi
 router.get('/', (req, res) => {
 
@@ -105,9 +133,9 @@ router.get('/:id', (req, res) => {
 
     const sql = `
         SELECT
-            pesanan.*,
-            pelanggan.nama AS nama_pelanggan,
-            pelanggan.no_hp
+        pesanan.*,
+        pelanggan.nama AS nama_pelanggan,
+        pelanggan.no_hp
         FROM pesanan
         JOIN pelanggan
         ON pesanan.pelanggan_id = pelanggan.id
