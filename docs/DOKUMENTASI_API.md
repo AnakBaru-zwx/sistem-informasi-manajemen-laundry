@@ -319,3 +319,59 @@ Request yang mengirimkan data menggunakan format JSON.
 Nilai :id pada endpoint diganti dengan ID data yang ingin diakses.
 Total harga pesanan dihitung otomatis oleh backend.
 Database menggunakan SQLite dengan Foreign Key aktif.
+
+4. Alur Status Pesanan
+
+5. Ringkasan Endpoint API
+
+6. Catatan Penggunaan
+
+7. Penanganan Kesalahan API
+   7.1 Error API Pelanggan
+   Status: 400 Bad Request
+
+
+**Response Error:**
+```json
+{
+    "success": false,
+    "message": "Nama dan nomor HP wajib diisi dengan benar"
+}
+```
+Status: 400 Bad Request.
+   7.2 Error API Tambah Pesanan
+   {
+    "success": false,
+    "message": "ID pelanggan harus berupa angka positif dan berat cucian harus lebih dari 0"
+}
+Status: 400 Bad Request.
+Ketika pelanggan tidak terdaftar:
+Plain Text
+{
+    "success": false,
+    "message": "Pelanggan tidak ditemukan"
+}
+Status: 404 Not Found.
+   7.3 Error API Edit Pesanan
+   Ketika berat tidak valid:
+{
+    "success": false,
+    "message": "Berat cucian harus lebih dari 0"
+}
+Status: 400 Bad Request.
+Ketika pesanan sudah diproses:
+{
+    "success": false,
+    "message": "Berat hanya dapat diubah saat status pengerjaan Menunggu"
+}
+Status: 400 Bad Request.
+ 
+   7.4 Error API Pembayaran
+   Dokumentasi sudah mencantumkan aturan pembayaran, tetapi sebaiknya ditambahkan contoh respons ketika pembayaran belum boleh dilakukan.
+Contoh:
+Plain Text
+{
+    "success": false,
+    "message": "Pembayaran hanya dapat dilakukan jika pesanan sudah Selesai dan belum dibayar"
+}
+Status: 400 Bad Request.
