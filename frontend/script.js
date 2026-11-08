@@ -20,10 +20,14 @@ async function tampilkanPelanggan() {
     <td>${pelanggan.no_hp}</td>
     <td>${pelanggan.alamat}</td>
     <td>
-       <button class="btn-edit" onclick="editPelanggan(${pelanggan.id})">
-    Edit
-</button>
-    </td>
+    <button class="btn-edit" onclick="editPelanggan(${pelanggan.id})">
+        Edit
+    </button>
+
+    <button class="btn-hapus" onclick="hapusPelanggan(${pelanggan.id})">
+        Hapus
+    </button>
+</td>
 `;
 
             tabel.appendChild(baris);
@@ -123,5 +127,38 @@ async function editPelanggan(id) {
     } catch (error) {
         console.error(error);
         alert("Gagal mengambil data pelanggan.");
+    }
+}
+
+async function hapusPelanggan(id) {
+
+    const yakin = confirm("Apakah kamu yakin ingin menghapus pelanggan ini?");
+
+    if (!yakin) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `http://localhost:3000/api/pelanggan/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const hasil = await response.json();
+
+        if (!response.ok) {
+            alert(hasil.message || "Gagal menghapus pelanggan.");
+            return;
+        }
+
+        alert("Pelanggan berhasil dihapus!");
+
+        tampilkanPelanggan();
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Tidak dapat terhubung ke server.");
     }
 }
