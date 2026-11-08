@@ -21,12 +21,16 @@ Method: POST
 Endpoint: /api/pelanggan
 URL: http://localhost:3000/api/pelanggan
 Request Body:
+```json
 {
     "nama": "Budi",
     "no_hp": "082222222222",
     "alamat": "Medan"
 }
+```
 Response berhasil (201 Created):
+
+```json
 {
     "success": true,
     "message": "Pelanggan berhasil ditambahkan",
@@ -37,6 +41,7 @@ Response berhasil (201 Created):
         "alamat": "Medan"
     }
 }
+```
 Validasi:
 Nama wajib diisi.
 Nomor HP wajib diisi.
@@ -47,6 +52,8 @@ Method: GET
 Endpoint: /api/pelanggan
 URL: http://localhost:3000/api/pelanggan
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Data pelanggan berhasil ditampilkan",
@@ -59,11 +66,14 @@ Response berhasil (200 OK):
         }
     ]
 }
+```
 2.3 Menampilkan Pelanggan Berdasarkan ID
 Method: GET
 Endpoint: /api/pelanggan/:id
 Contoh URL: http://localhost:3000/api/pelanggan/2
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Data pelanggan berhasil ditemukan",
@@ -74,26 +84,36 @@ Response berhasil (200 OK):
         "alamat": "Medan"
     }
 }
+```
 Response jika pelanggan tidak ditemukan (404 Not Found):
+
+```json
 {
     "success": false,
     "message": "Pelanggan tidak ditemukan"
 }
+```
 2.4 Mengubah Data Pelanggan
 Method: PUT
 Endpoint: /api/pelanggan/:id
 Contoh URL: http://localhost:3000/api/pelanggan/2
 Request Body:
+
+```json
 {
     "nama": "Budi Santoso",
     "no_hp": "082222222222",
     "alamat": "Medan Baru"
 }
+```
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Data pelanggan berhasil diubah"
 }
+```
 Validasi:
 Nama wajib diisi.
 Nomor HP wajib diisi.
@@ -104,20 +124,29 @@ Method: DELETE
 Endpoint: /api/pelanggan/:id
 Contoh URL: http://localhost:3000/api/pelanggan/2
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Pelanggan berhasil dihapus"
 }
+```
 Response jika pelanggan masih memiliki transaksi (409 Conflict):
+
+```json
 {
     "success": false,
     "message": "Pelanggan tidak dapat dihapus karena masih memiliki transaksi"
 }
+```
 Response jika pelanggan tidak ditemukan (404 Not Found):
+
+```json
 {
     "success": false,
     "message": "Pelanggan tidak ditemukan"
 }
+```
 Aturan:
 
 Pelanggan yang masih memiliki transaksi pesanan tidak dapat dihapus agar riwayat transaksi tetap terjaga.
@@ -130,11 +159,16 @@ Method: POST
 Endpoint: /api/pesanan
 URL: http://localhost:3000/api/pesanan
 Request Body:
+
+```json
 {
     "pelanggan_id": 2,
     "berat": 5
 }
+```
 Response berhasil (201 Created):
+
+```json
 {
     "success": true,
     "message": "Transaksi berhasil ditambahkan",
@@ -148,6 +182,7 @@ Response berhasil (201 Created):
         "status_pembayaran": "Belum dibayar"
     }
 }
+```
 Validasi:
 ID pelanggan harus berupa bilangan bulat positif.
 Pelanggan harus terdaftar.
@@ -160,6 +195,8 @@ Method: GET
 Endpoint: /api/pesanan
 URL: http://localhost:3000/api/pesanan
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Data transaksi berhasil ditampilkan",
@@ -178,12 +215,15 @@ Response berhasil (200 OK):
         }
     ]
 }
+```
 API ini mengambil data pesanan sekaligus nama pelanggan dan nomor HP melalui JOIN antara tabel pesanan dan pelanggan.
 3.3 Menampilkan Pesanan Berdasarkan ID
 Method: GET
 Endpoint: /api/pesanan/:id
 Contoh URL: http://localhost:3000/api/pesanan/2
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Data transaksi berhasil ditemukan",
@@ -200,20 +240,29 @@ Response berhasil (200 OK):
         "no_hp": "082222222222"
     }
 }
+```
 Response jika pesanan tidak ditemukan (404 Not Found):
+
+```json
 {
     "success": false,
     "message": "Transaksi tidak ditemukan"
 }
+```
 3.4 Mengubah Berat Pesanan
 Method: PUT
 Endpoint: /api/pesanan/:id
 Contoh URL: http://localhost:3000/api/pesanan/2
 Request Body:
+
+```json
 {
     "berat": 6
 }
+```
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Berat cucian berhasil diubah",
@@ -224,6 +273,7 @@ Response berhasil (200 OK):
         "total_harga": 42000
     }
 }
+```
 Validasi dan aturan:
 Berat harus berupa angka lebih dari 0.
 Berat hanya dapat diubah ketika status pengerjaan masih Menunggu.
@@ -235,6 +285,8 @@ Endpoint: /api/pesanan/:id/mulai
 Contoh URL: http://localhost:3000/api/pesanan/2/mulai
 Endpoint ini digunakan untuk mengubah status pengerjaan dari Menunggu menjadi Diproses.
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Pesanan berhasil dimulai",
@@ -243,6 +295,7 @@ Response berhasil (200 OK):
         "status_pengerjaan": "Diproses"
     }
 }
+```
 Aturan:
 
 Pesanan hanya dapat dimulai ketika status sebelumnya adalah Menunggu.
@@ -252,6 +305,8 @@ Endpoint: /api/pesanan/:id/selesai
 Contoh URL: http://localhost:3000/api/pesanan/2/selesai
 Endpoint ini digunakan untuk mengubah status pengerjaan dari Diproses menjadi Selesai.
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Pesanan berhasil diselesaikan",
@@ -261,6 +316,7 @@ Response berhasil (200 OK):
         "status_pembayaran": "Belum dibayar"
     }
 }
+```
 Aturan:
 
 Pesanan hanya dapat diselesaikan ketika status sebelumnya adalah Diproses.
@@ -270,6 +326,8 @@ Endpoint: /api/pesanan/:id/bayar
 Contoh URL: http://localhost:3000/api/pesanan/2/bayar
 Endpoint ini digunakan untuk mengubah status pembayaran dari Belum dibayar menjadi Lunas.
 Response berhasil (200 OK):
+
+```json
 {
     "success": true,
     "message": "Pembayaran berhasil",
@@ -279,6 +337,7 @@ Response berhasil (200 OK):
         "status_pembayaran": "Lunas"
     }
 }
+```
 Aturan:
 Pesanan harus sudah berstatus Selesai.
 Pembayaran harus berstatus Belum dibayar.
@@ -323,6 +382,7 @@ Database menggunakan SQLite dengan Foreign Key aktif.
 7. Penanganan Kesalahan API
    7.1 Error API Pelanggan
 **Response Error:**
+
 ```json
 {
     "success": false,
@@ -331,35 +391,74 @@ Database menggunakan SQLite dengan Foreign Key aktif.
 ```
 Status: 400 Bad Request.
    7.2 Error API Tambah Pesanan
-   {
+```json
+{
     "success": false,
     "message": "ID pelanggan harus berupa angka positif dan berat cucian harus lebih dari 0"
 }
+```
 Status: 400 Bad Request.
 Ketika pelanggan tidak terdaftar:
+
+```json
 {
     "success": false,
     "message": "Pelanggan tidak ditemukan"
 }
+```
+
 Status: 404 Not Found.
    7.3 Error API Edit Pesanan
    Ketika berat tidak valid:
+
+```json
 {
     "success": false,
     "message": "Berat cucian harus lebih dari 0"
 }
+```
 Status: 400 Bad Request.
 Ketika pesanan sudah diproses:
+
+```json
 {
     "success": false,
     "message": "Berat hanya dapat diubah saat status pengerjaan Menunggu"
 }
+```
+
 Status: 400 Bad Request.
- 
    7.4 Error API Pembayaran
 Contoh:
+
+```json
 {
     "success": false,
     "message": "Pembayaran hanya dapat dilakukan jika pesanan sudah Selesai dan belum dibayar"
 }
+```
+Status: 400 Bad Request.
+### 7.5 Error API Memulai Pesanan
+
+Ketika pesanan tidak ditemukan atau status pengerjaan bukan Menunggu:
+
+```json
+{
+    "success": false,
+    "message": "Pesanan tidak ditemukan atau status bukan Menunggu"
+}
+```
+
+Status: 400 Bad Request.
+### 7.6 Error API Menyelesaikan Pesanan
+
+Ketika pesanan tidak ditemukan atau status pengerjaan bukan Diproses:
+
+```json
+{
+    "success": false,
+    "message": "Pesanan tidak ditemukan atau status bukan Diproses"
+}
+```
+
 Status: 400 Bad Request.
